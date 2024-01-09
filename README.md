@@ -1,4 +1,4 @@
-Skybrud.Umbraco.BorgerDk
+# Limbo.Umbraco.BorgerDk
 ========================
 
 This repository covers the integration between our [**Skybrud.Integrations.BorgerDk**](https://github.com/skybrud/Skybrud.Integrations.BorgerDk) package and Umbraco. This gives editors the option to insert Borger.dk articles as part of their content in their own pages in Umbraco.

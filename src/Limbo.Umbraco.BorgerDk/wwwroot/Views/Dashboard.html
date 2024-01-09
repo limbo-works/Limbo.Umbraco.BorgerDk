@@ -1,0 +1,16 @@
+﻿<div class="skybrud-borgerdk-dashboard" ng-controller="Limbo.BorgerDk.Dashboard.Controller as vm">
+    <p>
+        <umb-button action="vm.import()"
+                    type="button"
+                    button-style="success"
+                    state="vm.buttonState"
+                    label="Igangsæt ny import">
+        </umb-button>
+    </p>
+    <div class="skybrud-borgerdk-import-result" ng-if="vm.result">
+        <h4>Resultat af import</h4>
+        <ul>
+            <limbo-borgerdk-item item="vm.result"></limbo-borgerdk-item>
+        </ul>
+    </div>
+</div>
