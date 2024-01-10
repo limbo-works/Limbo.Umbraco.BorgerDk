@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+using Limbo.Integrations.BorgerDk;
 using Limbo.Umbraco.BorgerDk.Notifications;
 using Newtonsoft.Json.Linq;
-using Skybrud.Integrations.BorgerDk;
 using Umbraco.Cms.Core.Cache;
 using Umbraco.Cms.Core.Events;
 using Umbraco.Cms.Core.Serialization;

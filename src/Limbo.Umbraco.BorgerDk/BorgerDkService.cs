@@ -1,13 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using Limbo.Integrations.BorgerDk;
 using Limbo.Umbraco.BorgerDk.Models;
 using Limbo.Umbraco.BorgerDk.Notifications;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Logging;
 using NPoco;
 using Skybrud.Essentials.Collections.Extensions;
-using Skybrud.Integrations.BorgerDk;
 using Umbraco.Cms.Core.Events;
 using Umbraco.Cms.Infrastructure.Persistence;
 using Umbraco.Cms.Infrastructure.Scoping;

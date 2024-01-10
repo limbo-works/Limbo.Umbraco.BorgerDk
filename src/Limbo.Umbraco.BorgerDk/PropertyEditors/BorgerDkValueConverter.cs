@@ -1,10 +1,10 @@
 ﻿using System;
+using Limbo.Integrations.BorgerDk;
 using Limbo.Umbraco.BorgerDk.Caching;
 using Limbo.Umbraco.BorgerDk.Models.Published;
 using Newtonsoft.Json.Linq;
 using Skybrud.Essentials.Json.Newtonsoft;
 using Skybrud.Essentials.Json.Newtonsoft.Extensions;
-using Skybrud.Integrations.BorgerDk;
 using Umbraco.Cms.Core.Models.PublishedContent;
 using Umbraco.Cms.Core.PropertyEditors;
 using Umbraco.Extensions;
@@ -43,7 +43,7 @@ namespace Limbo.Umbraco.BorgerDk.PropertyEditors {
         public override object? ConvertIntermediateToObject(IPublishedElement owner, IPublishedPropertyType propertyType, PropertyCacheLevel referenceCacheLevel, object? inter, bool preview) {
 
             if (inter is not JObject json) return null;
-            
+
             // Parse the individual identifiers of the article
             string domain = json.GetString("domain")!;
             int municipality = json.GetInt32("municipality");

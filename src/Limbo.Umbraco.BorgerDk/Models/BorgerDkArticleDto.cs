@@ -1,8 +1,8 @@
 ﻿using System;
+using Limbo.Integrations.BorgerDk;
 using Newtonsoft.Json;
 using NPoco;
 using Skybrud.Essentials.Json.Newtonsoft;
-using Skybrud.Integrations.BorgerDk;
 using Umbraco.Cms.Infrastructure.Persistence.DatabaseAnnotations;
 
 #pragma warning disable 1591

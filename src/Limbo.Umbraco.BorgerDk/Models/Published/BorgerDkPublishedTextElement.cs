@@ -1,7 +1,7 @@
 ﻿using System.Text.RegularExpressions;
+using Limbo.Integrations.BorgerDk;
+using Limbo.Integrations.BorgerDk.Elements;
 using Newtonsoft.Json;
-using Skybrud.Integrations.BorgerDk;
-using Skybrud.Integrations.BorgerDk.Elements;
 
 namespace Limbo.Umbraco.BorgerDk.Models.Published {
 

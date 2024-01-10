@@ -1,4 +1,4 @@
-﻿using Skybrud.Integrations.BorgerDk;
+﻿using Limbo.Integrations.BorgerDk;
 using Umbraco.Cms.Core.Notifications;
 
 namespace Limbo.Umbraco.BorgerDk.Notifications {

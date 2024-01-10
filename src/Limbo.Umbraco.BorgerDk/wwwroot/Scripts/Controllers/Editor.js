@@ -1,5 +1,8 @@
 ﻿angular.module("umbraco").controller("Limbo.BorgerDk.Controller", function ($scope, borgerDkService, editorService) {
 
+    if (!$scope.model.config) $scope.model.config = {};
+    $scope.model.hideLabel = $scope.model.config.hideLabel === true;
+
     $scope.edit = function () {
         borgerDkService.editArticle($scope.model.value, $scope.model.config, function (model) {
             $scope.model.value = model.value;

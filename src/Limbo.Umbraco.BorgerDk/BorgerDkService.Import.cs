@@ -3,13 +3,13 @@ using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 using System.IO;
 using System.Text;
+using Limbo.Integrations.BorgerDk;
 using Limbo.Umbraco.BorgerDk.Models;
 using Limbo.Umbraco.BorgerDk.Models.Import;
 using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
 using Skybrud.Essentials.Strings;
 using Skybrud.Essentials.Strings.Extensions;
-using Skybrud.Integrations.BorgerDk;
 using Umbraco.Cms.Core;
 using Umbraco.Cms.Core.Extensions;
 
@@ -153,7 +153,8 @@ namespace Limbo.Umbraco.BorgerDk {
                             try {
 
                                 // Get the endpoint from the domain
-                                BorgerDkEndpoint endpoint = BorgerDkEndpoint.GetFromDomain(dto.Domain);
+                                BorgerDkEndpoint? endpoint = BorgerDkEndpoint.GetFromDomain(dto.Domain);
+                                if (endpoint is null) throw new Exception($"Endpoint with domain '{dto.Domain}' not found.");
 
                                 // Initialize a new service instance from the endpoint
                                 BorgerDkHttpService service = new(endpoint);

@@ -3,15 +3,15 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Text.RegularExpressions;
+using Limbo.Integrations.BorgerDk;
+using Limbo.Integrations.BorgerDk.Elements;
+using Limbo.Integrations.BorgerDk.Exceptions;
 using Limbo.Umbraco.BorgerDk.Models.Import;
 using Limbo.Umbraco.BorgerDk.Scheduling;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using Skybrud.Essentials.Strings;
-using Skybrud.Integrations.BorgerDk;
-using Skybrud.Integrations.BorgerDk.Elements;
-using Skybrud.Integrations.BorgerDk.Exceptions;
 using Umbraco.Cms.Core.Cache;
 using Umbraco.Cms.Core.Sync;
 using Umbraco.Cms.Web.BackOffice.Controllers;
@@ -73,10 +73,12 @@ namespace Limbo.Umbraco.BorgerDk.Controllers {
 
         public object GetArticles(string? text = null, string? domain = null) {
 
-            BorgerDkEndpoint endpoint = BorgerDkEndpoint.Default;
-
+            BorgerDkEndpoint? endpoint;
             if (string.IsNullOrWhiteSpace(domain) == false) {
                 endpoint = BorgerDkEndpoint.GetFromDomain(domain);
+                if (endpoint == null) throw new Exception($"Endpoint with domain '{domain}' not found.");
+            } else {
+                endpoint = BorgerDkEndpoint.Default;
             }
 
             BorgerDkHttpService service = new(endpoint);
@@ -107,11 +109,11 @@ namespace Limbo.Umbraco.BorgerDk.Controllers {
             }
 
             // Get the endpoint from the domain/URL
-            BorgerDkEndpoint endpoint = BorgerDkEndpoint.GetFromUrl(url);
+            BorgerDkEndpoint? endpoint = BorgerDkEndpoint.GetFromUrl(url);
             if (endpoint == null) return BadRequest("Den angivne URL er ikke gyldig.");
 
             // Parse the municipality code
-            if (BorgerDkMunicipality.TryGetFromCode(municipalityCode, out BorgerDkMunicipality municipality) == false) {
+            if (BorgerDkMunicipality.TryGetFromCode(municipalityCode, out BorgerDkMunicipality? municipality) == false) {
                 return BadRequest("Den angivne kommune er ikke gyldig.");
             }
 

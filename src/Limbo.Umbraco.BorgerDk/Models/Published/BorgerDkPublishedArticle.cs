@@ -1,11 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using Limbo.Integrations.BorgerDk;
+using Limbo.Integrations.BorgerDk.Elements;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using Skybrud.Essentials.Json.Extensions;
-using Skybrud.Integrations.BorgerDk;
-using Skybrud.Integrations.BorgerDk.Elements;
 using Umbraco.Cms.Core.Models.PublishedContent;
 
 namespace Limbo.Umbraco.BorgerDk.Models.Published {

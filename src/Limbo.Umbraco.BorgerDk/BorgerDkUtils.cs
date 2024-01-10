@@ -1,4 +1,4 @@
-﻿using Skybrud.Integrations.BorgerDk;
+﻿using Limbo.Integrations.BorgerDk;
 
 namespace Limbo.Umbraco.BorgerDk {
 
