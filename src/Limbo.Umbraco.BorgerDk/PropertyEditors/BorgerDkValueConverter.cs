@@ -1,5 +1,8 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using Limbo.Integrations.BorgerDk;
+using Limbo.Integrations.BorgerDk.Elements;
 using Limbo.Umbraco.BorgerDk.Caching;
 using Limbo.Umbraco.BorgerDk.Models.Published;
 using Newtonsoft.Json.Linq;
@@ -55,7 +58,44 @@ namespace Limbo.Umbraco.BorgerDk.PropertyEditors {
             // TODO: Should we still return a value here if the selected article isn't found in the cache?
             if (article == null) return null;
 
-            return new BorgerDkPublishedArticle(json, article);
+            // Get a reference to the data type configuration
+            BorgerDkConfiguration? config = propertyType.DataType.Configuration as BorgerDkConfiguration;
+
+            // Get the allowed types from the data type (empty means all types are allowed)
+            HashSet<string> allowed = config?.AllowedTypes.ToHashSet() ?? new HashSet<string>();
+
+            // Get the IDs of the selected elements
+            IReadOnlyList<string> selection = json.GetStringArray("selection");
+
+            List<BorgerDkPublishedElement> elements = new();
+
+            foreach (BorgerDkElement element in article.Elements) {
+
+                // If the element is disallowed by the data type, we should ignore it
+                if (allowed.Count > 0 && !allowed.Contains(element.Id)) continue;
+
+                switch (element)  {
+
+                    case BorgerDkTextElement text when selection.Contains(element.Id):
+                        elements.Add(new BorgerDkPublishedTextElement(text));
+                        break;
+
+                    case BorgerDkBlockElement block: {
+                        List<BorgerDkPublishedMicroArticle> micros = new();
+                        foreach (var micro in block.MicroArticles) {
+                            if (!selection.Contains("kernetekst") && !selection.Contains(micro.Id)) continue;
+                            micros.Add(new BorgerDkPublishedMicroArticle(micro));
+                        }
+                        if (micros.Any()) elements.Add(new BorgerDkPublishedBlockElement(micros));
+                        break;
+                    }
+
+                }
+
+            }
+
+            // Initialize the article model
+            return new BorgerDkPublishedArticle(article, selection, elements);
 
         }
 

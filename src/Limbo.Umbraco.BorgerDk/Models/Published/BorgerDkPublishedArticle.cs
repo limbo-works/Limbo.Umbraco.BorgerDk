@@ -1,11 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using System.Collections.Generic;
 using Limbo.Integrations.BorgerDk;
-using Limbo.Integrations.BorgerDk.Elements;
 using Newtonsoft.Json;
-using Newtonsoft.Json.Linq;
-using Skybrud.Essentials.Json.Extensions;
 using Umbraco.Cms.Core.Models.PublishedContent;
 
 namespace Limbo.Umbraco.BorgerDk.Models.Published {
@@ -18,46 +13,46 @@ namespace Limbo.Umbraco.BorgerDk.Models.Published {
         #region Properties
 
         /// <summary>
+        /// Gets a reference to the article as received from the Borger.dk web service.
+        /// </summary>
+        [JsonIgnore]
+        public BorgerDkArticle Article { get; }
+
+        /// <summary>
         /// Gets the numeric ID of the article.
         /// </summary>
         [JsonProperty("id")]
-        public int Id { get; }
+        public int Id => Article.Id;
 
         /// <summary>
         /// Gets the URL of the article.
         /// </summary>
         [JsonProperty("url")]
-        public string Url { get; }
+        public string Url => Article.Url;
 
         /// <summary>
         /// Gets the title of the article.
         /// </summary>
         [JsonProperty("title")]
-        public string Title { get; }
+        public string Title => Article.Title;
 
         /// <summary>
         /// Gets the header of the article.
         /// </summary>
         [JsonProperty("header")]
-        public string Header { get; }
+        public string Header => Article.Header;
 
         /// <summary>
         /// Gets the by line of the article.
         /// </summary>
         [JsonProperty("byline")]
-        public string ByLine { get; }
+        public string ByLine => Article.ByLine;
 
         /// <summary>
         /// Gets an array with the IDs for the selected article lements.
         /// </summary>
         [JsonIgnore]
         public IReadOnlyList<string> Selection { get; }
-
-        /// <summary>
-        /// Gets a reference to the article as received from the Borger.dk web service.
-        /// </summary>
-        [JsonIgnore]
-        public BorgerDkArticle Article { get; }
 
         /// <summary>
         /// Gets a reference to the selected article elements.
@@ -67,57 +62,22 @@ namespace Limbo.Umbraco.BorgerDk.Models.Published {
 
         #endregion
 
+        #region Constructors
+
         /// <summary>
-        /// Initializes a new instance based on the specified <paramref name="json"/> object and <paramref name="article"/>.
+        /// Initializes a new instance based on the specified <paramref name="article"/>, <paramref name="selection"/> and <paramref name="elements"/>.
         /// </summary>
-        /// <param name="json">The JSON object as saved on the <see cref="IPublishedElement"/>.</param>
-        /// <param name="article">The article as received from the Borger.dk web service.</param>
-        public BorgerDkPublishedArticle(JObject json, BorgerDkArticle article) {
-
-            Id = json.GetInt32("id")!;
-            Url = json.GetString("url")!;
-            Title = json.GetString("title")!;
-            Header = json.GetString("header")!;
-            ByLine = json.GetString("byline")!;
-            Selection = json.GetStringArray("selection");
-
+        /// <param name="article">The Borger.dk article the instance should be based on.</param>
+        /// <param name="selection">A list with the IDs of the selected elements.</param>
+        /// <param name="elements">A list of the elements that should make up this instance..</param>
+        public BorgerDkPublishedArticle(BorgerDkArticle article, IReadOnlyList<string> selection, IReadOnlyList<BorgerDkPublishedElement> elements) {
             Article = article;
-            Elements = Array.Empty<BorgerDkPublishedElement>();
-
-            if (article == null) return;
-
-            Title = article.Title;
-            Header = article.Header;
-
-            List<BorgerDkPublishedElement> elements = new();
-
-            foreach (BorgerDkElement element in article.Elements) {
-
-                if (element is BorgerDkTextElement text && Selection.Contains(element.Id)) {
-
-                    elements.Add(new BorgerDkPublishedTextElement(text));
-
-                } else if (element is BorgerDkBlockElement block) {
-
-                    List<BorgerDkPublishedMicroArticle> micros = new();
-
-                    foreach (var micro in block.MicroArticles) {
-
-                        if (Selection.Contains("kernetekst") || Selection.Contains(micro.Id)) {
-                            micros.Add(new BorgerDkPublishedMicroArticle(micro));
-                        }
-
-                    }
-
-                    if (micros.Any()) elements.Add(new BorgerDkPublishedBlockElement(micros));
-
-                }
-
-            }
-
-            Elements = elements.ToArray();
-
+            Selection = selection;
+            Elements = elements;
         }
 
+        #endregion
+
     }
+
 }
