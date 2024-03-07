@@ -16,7 +16,7 @@
     <Authors>Anders Bjerner</Authors>
     <Copyright>Copyright © $([System.DateTime]::UtcNow.ToString(`yyyy`))</Copyright>
     <Title>Limbo Borger.dk</Title>
-    <Description>Umbraco package for integration with the Borger.dk web service.</Description>
+    <Description>Umbraco package for integrating with the Borger.dk web service.</Description>
   </PropertyGroup>
 
   <!-- Information for the NuGet package -->
