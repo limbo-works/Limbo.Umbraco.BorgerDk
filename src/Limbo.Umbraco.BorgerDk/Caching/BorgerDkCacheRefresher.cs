@@ -9,136 +9,134 @@ using Umbraco.Cms.Core.Serialization;
 
 #pragma warning disable 1591
 
-namespace Limbo.Umbraco.BorgerDk.Caching {
+namespace Limbo.Umbraco.BorgerDk.Caching;
+
+/// <summary>
+/// Cache refresher for <see cref="BorgerDkCache"/>.
+/// </summary>
+public class BorgerDkCacheRefresher : PayloadCacheRefresherBase<BorgerDkCacheRefresherNotification, BorgerDkCacheRefresher.JsonPayload> {
+
+    private readonly BorgerDkService _borgerDkService;
+    private readonly BorgerDkCache _borgerDkCache;
+
+    #region Properties
 
     /// <summary>
-    /// Cache refresher for <see cref="BorgerDkCache"/>.
+    /// Gets the unique ID associated with this cache refresher.
     /// </summary>
-    public class BorgerDkCacheRefresher : PayloadCacheRefresherBase<BorgerDkCacheRefresherNotification, BorgerDkCacheRefresher.JsonPayload> {
+    public static readonly Guid UniqueId = Guid.Parse("1F28970B-746B-451A-9B57-7A8AD394F1C8");
 
-        private readonly BorgerDkService _borgerDkService;
-        private readonly BorgerDkCache _borgerDkCache;
+    /// <summary>
+    /// Gets the unique ID associated with this cache refresher.
+    /// </summary>
+    public override Guid RefresherUniqueId => UniqueId;
 
-        #region Properties
+    /// <summary>
+    /// gets the name of this cache refresher.
+    /// </summary>
+    public override string Name => "BorgerDkCacheRefresher";
 
-        /// <summary>
-        /// Gets the unique ID associated with this cache refresher.
-        /// </summary>
-        public static readonly Guid UniqueId = Guid.Parse("1F28970B-746B-451A-9B57-7A8AD394F1C8");
+    #endregion
 
-        /// <summary>
-        /// Gets the unique ID associated with this cache refresher.
-        /// </summary>
-        public override Guid RefresherUniqueId => UniqueId;
+    #region Constructors
 
-        /// <summary>
-        /// gets the name of this cache refresher.
-        /// </summary>
-        public override string Name => "BorgerDkCacheRefresher";
+    /// <summary>
+    /// Initializes a new instance based on the specified DI dependencies.
+    /// </summary>
+    public BorgerDkCacheRefresher(AppCaches appCaches,
+        IJsonSerializer jsonSerializer,
+        IEventAggregator eventAggregator,
+        ICacheRefresherNotificationFactory factory,
+        BorgerDkService borgerDkService,
+        BorgerDkCache borgerDkCache) : base(appCaches, jsonSerializer, eventAggregator, factory) {
+        _borgerDkService = borgerDkService;
+        _borgerDkCache = borgerDkCache;
+    }
 
-        #endregion
+    #endregion
 
-        #region Constructors
+    #region Member methods
 
-        /// <summary>
-        /// Initializes a new instance based on the specified DI dependencies.
-        /// </summary>
-        public BorgerDkCacheRefresher(AppCaches appCaches,
-            IJsonSerializer jsonSerializer,
-            IEventAggregator eventAggregator,
-            ICacheRefresherNotificationFactory factory,
-            BorgerDkService borgerDkService,
-            BorgerDkCache borgerDkCache) : base(appCaches, jsonSerializer, eventAggregator, factory) {
-            _borgerDkService = borgerDkService;
-            _borgerDkCache = borgerDkCache;
-        }
+    /// <inheritdoc/>
+    public override void RefreshAll() {
+        Console.WriteLine("RefreshAll()");
+        _borgerDkCache.RefreshAll();
+    }
 
-        #endregion
+    /// <inheritdoc/>
+    public override void Refresh(string json) {
 
-        #region Member methods
+        Console.WriteLine("Refresh(string)");
 
-        /// <inheritdoc/>
-        public override void RefreshAll() {
-            Console.WriteLine("RefreshAll()");
-            _borgerDkCache.RefreshAll();
-        }
+        IReadOnlyList<JsonPayload>? payloads = Deserialize(json);
+        if (payloads == null) return;
 
-        /// <inheritdoc/>
-        public override void Refresh(string json) {
+        foreach (JsonPayload payload in payloads) {
 
-            Console.WriteLine("Refresh(string)");
+            string uniqueId = BorgerDkUtils.GetUniqueId(payload.Domain, payload.Municipality, payload.ArticleId);
 
-            IReadOnlyList<JsonPayload>? payloads = Deserialize(json);
-            if (payloads == null) return;
+            Console.WriteLine($"BorgerDkCacheRefresher received payload that {uniqueId} was updated.");
 
-            foreach (JsonPayload payload in payloads) {
+            BorgerDkArticle? article = _borgerDkService.GetArticleById(payload.Domain, payload.Municipality, payload.ArticleId);
 
-                string uniqueId = BorgerDkUtils.GetUniqueId(payload.Domain, payload.Municipality, payload.ArticleId);
-
-                Console.WriteLine($"BorgerDkCacheRefresher received payload that {uniqueId} was updated.");
-
-                BorgerDkArticle? article = _borgerDkService.GetArticleById(payload.Domain, payload.Municipality, payload.ArticleId);
-
-                if (article == null) {
-                    Console.WriteLine(" - Article not found in database");
-                } else {
-                    Console.WriteLine(" - Article found in the database.");
-                    _borgerDkCache.AddOrUpdate(article);
-                }
-
+            if (article == null) {
+                Console.WriteLine(" - Article not found in database");
+            } else {
+                Console.WriteLine(" - Article found in the database.");
+                _borgerDkCache.AddOrUpdate(article);
             }
 
         }
 
-        /// <inheritdoc/>
-        public override void Refresh(JsonPayload[] payloads) {
+    }
 
-            Console.WriteLine("Refresh(payloads)");
+    /// <inheritdoc/>
+    public override void Refresh(JsonPayload[] payloads) {
 
-            foreach (JsonPayload payload in payloads) {
+        Console.WriteLine("Refresh(payloads)");
 
-                Console.WriteLine(payload.GetType());
-                Console.WriteLine(JObject.FromObject(payload));
+        foreach (JsonPayload payload in payloads) {
 
-                string uniqueId = BorgerDkUtils.GetUniqueId(payload.Domain, payload.Municipality, payload.ArticleId);
+            Console.WriteLine(payload.GetType());
+            Console.WriteLine(JObject.FromObject(payload));
 
-                Console.WriteLine($"BorgerDkCacheRefresher received payload that {uniqueId} was updated.");
+            string uniqueId = BorgerDkUtils.GetUniqueId(payload.Domain, payload.Municipality, payload.ArticleId);
 
-                BorgerDkArticle? article = _borgerDkService.GetArticleById(payload.Domain, payload.Municipality, payload.ArticleId);
+            Console.WriteLine($"BorgerDkCacheRefresher received payload that {uniqueId} was updated.");
 
-                if (article == null) {
-                    Console.WriteLine(" - Article not found in database");
-                } else {
-                    Console.WriteLine(" - Article found in the database.");
-                    _borgerDkCache.AddOrUpdate(article);
-                }
+            BorgerDkArticle? article = _borgerDkService.GetArticleById(payload.Domain, payload.Municipality, payload.ArticleId);
 
+            if (article == null) {
+                Console.WriteLine(" - Article not found in database");
+            } else {
+                Console.WriteLine(" - Article found in the database.");
+                _borgerDkCache.AddOrUpdate(article);
             }
 
         }
 
-        #endregion
+    }
 
-        public class JsonPayload {
+    #endregion
 
-            public string Domain { get; }
+    public class JsonPayload {
 
-            public int Municipality { get; }
+        public string Domain { get; }
 
-            public int ArticleId { get; }
+        public int Municipality { get; }
 
-            public JsonPayload(string domain, int municipality, int articleId) {
-                Domain = domain;
-                Municipality = municipality;
-                ArticleId = articleId;
-            }
+        public int ArticleId { get; }
 
-            public JsonPayload(BorgerDkArticle article) {
-                Domain = article.Domain;
-                Municipality = article.Municipality.Code;
-                ArticleId = article.Id;
-            }
+        public JsonPayload(string domain, int municipality, int articleId) {
+            Domain = domain;
+            Municipality = municipality;
+            ArticleId = articleId;
+        }
 
+        public JsonPayload(BorgerDkArticle article) {
+            Domain = article.Domain;
+            Municipality = article.Municipality.Code;
+            ArticleId = article.Id;
         }
 
     }

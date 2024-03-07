@@ -1,54 +1,52 @@
 ﻿using System;
 using Umbraco.Cms.Core.Sync;
 
-namespace Limbo.Umbraco.BorgerDk.Scheduling {
+namespace Limbo.Umbraco.BorgerDk.Scheduling;
+
+/// <summary>
+/// Class representing the settings for the Borger.dk import task. The class is registered with the DI container as
+/// a singleton, and the settings can thereby be modified by a component.
+/// </summary>
+public class BorgerDkImportTaskSettings {
+
+    #region Properties
 
     /// <summary>
-    /// Class representing the settings for the Borger.dk import task. The class is registered with the DI container as
-    /// a singleton, and the settings can thereby be modified by a component.
+    /// Gets or sets whether the state for whether the automatic import should run or not. If set to
+    /// <see cref="BorgerDkImportTaskState.Enabled"/> the task is enabled, and if set to
+    /// <see cref="BorgerDkImportTaskState.Disabled"/> the task is disabled.
+    ///
+    /// The default value is <see cref="BorgerDkImportTaskState.Auto"/> where the task will check the role of the
+    /// server to find out whether the task should run or not. If the server role is either
+    /// <see cref="ServerRole.Subscriber"/> or <see cref="ServerRole.Unknown"/>, the task will not run.
     /// </summary>
-    public class BorgerDkImportTaskSettings {
+    public BorgerDkImportTaskState State { get; set; }
 
-        #region Properties
+    /// <summary>
+    /// Gets or sets the interval between each time the import should run. Default is 12 hours.
+    /// </summary>
+    public TimeSpan ImportInterval { get; set; }
 
-        /// <summary>
-        /// Gets or sets whether the state for whether the automatic import should run or not. If set to
-        /// <see cref="BorgerDkImportTaskState.Enabled"/> the task is enabled, and if set to
-        /// <see cref="BorgerDkImportTaskState.Disabled"/> the task is disabled.
-        ///
-        /// The default value is <see cref="BorgerDkImportTaskState.Auto"/> where the task will check the role of the
-        /// server to find out whether the task should run or not. If the server role is either
-        /// <see cref="ServerRole.Subscriber"/> or <see cref="ServerRole.Unknown"/>, the task will not run.
-        /// </summary>
-        public BorgerDkImportTaskState State { get; set; }
+    /// <summary>
+    /// Gets or sets whether the result of automatic imports should be logged to the disk. This will help debugging
+    /// if anything goes wrong, but also take a bit of disk space over time. Default is <c>true</c>.
+    /// </summary>
+    public bool LogResults { get; set; }
 
-        /// <summary>
-        /// Gets or sets the interval between each time the import should run. Default is 12 hours.
-        /// </summary>
-        public TimeSpan ImportInterval { get; set; }
+    #endregion
 
-        /// <summary>
-        /// Gets or sets whether the result of automatic imports should be logged to the disk. This will help debugging
-        /// if anything goes wrong, but also take a bit of disk space over time. Default is <c>true</c>.
-        /// </summary>
-        public bool LogResults { get; set; }
+    #region Constructors
 
-        #endregion
+    /// <summary>
+    /// Initializes a new instance with <see cref="ImportInterval"/> set to 12 hours and <see cref="LogResults"/> set to <c>true</c>.
+    /// </summary>
+    public BorgerDkImportTaskSettings() {
 
-        #region Constructors
-
-        /// <summary>
-        /// Initializes a new instance with <see cref="ImportInterval"/> set to 12 hours and <see cref="LogResults"/> set to <c>true</c>.
-        /// </summary>
-        public BorgerDkImportTaskSettings() {
-
-            ImportInterval = TimeSpan.FromHours(12);
-            LogResults = true;
-
-        }
-
-        #endregion
+        ImportInterval = TimeSpan.FromHours(12);
+        LogResults = true;
 
     }
+
+    #endregion
 
 }

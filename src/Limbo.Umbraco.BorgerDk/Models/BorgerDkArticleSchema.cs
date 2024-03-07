@@ -4,50 +4,48 @@ using Umbraco.Cms.Infrastructure.Persistence.DatabaseAnnotations;
 
 #pragma warning disable 1591
 
-namespace Limbo.Umbraco.BorgerDk.Models {
+namespace Limbo.Umbraco.BorgerDk.Models;
 
-    [ExplicitColumns]
-    [TableName(TableName)]
-    [PrimaryKey("Id", AutoIncrement = false)]
-    public class BorgerDkArticleSchema {
+[ExplicitColumns]
+[TableName(TableName)]
+[PrimaryKey("Id", AutoIncrement = false)]
+public class BorgerDkArticleSchema {
 
-        #region Constants
+    #region Constants
 
-        /// <summary>
-        /// Gets the name of the table used in the database.
-        /// </summary>
-        public const string TableName = "LimboBorgerDk";
+    /// <summary>
+    /// Gets the name of the table used in the database.
+    /// </summary>
+    public const string TableName = "LimboBorgerDk";
 
-        internal const string LegacyTableName = "SkybrudBorgerDk";
+    internal const string LegacyTableName = "SkybrudBorgerDk";
 
-        #endregion
+    #endregion
 
-        #region Properties
+    #region Properties
 
-        [Column("Id")]
-        public string Id { get; set; } = null!;
+    [Column("Id")]
+    public string Id { get; set; } = null!;
 
-        [Column("ArticleId")]
-        public int ArticleId { get; set; }
+    [Column("ArticleId")]
+    public int ArticleId { get; set; }
 
-        [Column("Domain")]
-        public string Domain { get; set; } = null!;
+    [Column("Domain")]
+    public string Domain { get; set; } = null!;
 
-        [Column("Municipality")]
-        public int Municipality { get; set; }
+    [Column("Municipality")]
+    public int Municipality { get; set; }
 
-        [Column("Meta")]
-        [SpecialDbType(SpecialDbTypes.NTEXT)]
-        public string Meta { get; set; } = null!;
+    [Column("Meta")]
+    [SpecialDbType(SpecialDbTypes.NTEXT)]
+    public string Meta { get; set; } = null!;
 
-        [Column("CreateDate")]
-        public DateTime CreateDate { get; set; }
+    [Column("CreateDate")]
+    public DateTime CreateDate { get; set; }
 
-        [Column("UpdateDate")]
-        public DateTime UpdateDate { get; set; }
+    [Column("UpdateDate")]
+    public DateTime UpdateDate { get; set; }
 
-        #endregion
-
-    }
+    #endregion
 
 }

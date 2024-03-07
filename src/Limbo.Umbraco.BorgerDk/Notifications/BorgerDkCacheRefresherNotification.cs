@@ -4,15 +4,13 @@ using Umbraco.Cms.Core.Sync;
 
 #pragma warning disable 1591
 
-namespace Limbo.Umbraco.BorgerDk.Notifications {
+namespace Limbo.Umbraco.BorgerDk.Notifications;
 
-    /// <summary>
-    /// Class representing a notification used by the <see cref="BorgerDkCacheRefresher"/> class.
-    /// </summary>
-    public class BorgerDkCacheRefresherNotification : CacheRefresherNotification {
+/// <summary>
+/// Class representing a notification used by the <see cref="BorgerDkCacheRefresher"/> class.
+/// </summary>
+public class BorgerDkCacheRefresherNotification : CacheRefresherNotification {
 
-        public BorgerDkCacheRefresherNotification(object messageObject, MessageType messageType) : base(messageObject, messageType) { }
-
-    }
+    public BorgerDkCacheRefresherNotification(object messageObject, MessageType messageType) : base(messageObject, messageType) { }
 
 }

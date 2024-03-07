@@ -13,234 +13,232 @@ using Skybrud.Essentials.Strings.Extensions;
 using Umbraco.Cms.Core;
 using Umbraco.Cms.Core.Extensions;
 
-namespace Limbo.Umbraco.BorgerDk {
+namespace Limbo.Umbraco.BorgerDk;
 
-    public partial class BorgerDkService {
+public partial class BorgerDkService {
 
-        /// <summary>
-        /// Starts a new import from the Borger.dk web services. The method will pull an article list of each web
-        /// service, and then only update the articles that are already in our local database, but has a newer version
-        /// in the web service.
-        /// </summary>
-        /// <returns>An instance of <see cref="ImportJob"/> representing the result of the import.</returns>
-        public ImportJob Import() {
+    /// <summary>
+    /// Starts a new import from the Borger.dk web services. The method will pull an article list of each web
+    /// service, and then only update the articles that are already in our local database, but has a newer version
+    /// in the web service.
+    /// </summary>
+    /// <returns>An instance of <see cref="ImportJob"/> representing the result of the import.</returns>
+    public ImportJob Import() {
 
-            ImportJob job = new() { Name = "Importing articles from the Borger.dk web service" };
+        ImportJob job = new() { Name = "Importing articles from the Borger.dk web service" };
 
-            job.Start();
+        job.Start();
 
-            if (!FetchArticleList(job, out Dictionary<string, BorgerDkArticleDescription> fromApi)) return job;
-            if (!FetchArticlesFromDatabase(job, out IReadOnlyList<BorgerDkArticleDto>? fromDb)) return job;
+        if (!FetchArticleList(job, out Dictionary<string, BorgerDkArticleDescription> fromApi)) return job;
+        if (!FetchArticlesFromDatabase(job, out IReadOnlyList<BorgerDkArticleDto>? fromDb)) return job;
 
-            SynchronizeArticles(job, fromApi, fromDb);
+        SynchronizeArticles(job, fromApi, fromDb);
 
-            if (job.Status == ImportStatus.Pending) {
-                job.Completed();
-            }
-
-            return job;
-
+        if (job.Status == ImportStatus.Pending) {
+            job.Completed();
         }
 
-        /// <summary>
-        /// Writes the log of the specified <paramref name="job"/> to the disk.
-        /// </summary>
-        /// <param name="job">The job.</param>
-        public void WriteToLog(ImportJob job) {
+        return job;
 
-            string path = Path.Combine(Constants.SystemDirectories.LogFiles, BorgerDkPackage.Alias, $"{DateTime.UtcNow:yyyyMMddHHmmss}.txt");
+    }
 
-            string fullPath = _webHostEnvironment.MapPathContentRoot(path);
+    /// <summary>
+    /// Writes the log of the specified <paramref name="job"/> to the disk.
+    /// </summary>
+    /// <param name="job">The job.</param>
+    public void WriteToLog(ImportJob job) {
 
-            // ReSharper disable once AssignNullToNotNullAttribute
-            Directory.CreateDirectory(Path.GetDirectoryName(fullPath)!);
-            File.AppendAllText(fullPath, JsonConvert.SerializeObject(job), Encoding.UTF8);
+        string path = Path.Combine(Constants.SystemDirectories.LogFiles, BorgerDkPackage.Alias, $"{DateTime.UtcNow:yyyyMMddHHmmss}.txt");
 
-        }
+        string fullPath = _webHostEnvironment.MapPathContentRoot(path);
 
-        private bool FetchArticleList(ImportJob job, out Dictionary<string, BorgerDkArticleDescription> articles) {
+        // ReSharper disable once AssignNullToNotNullAttribute
+        Directory.CreateDirectory(Path.GetDirectoryName(fullPath)!);
+        File.AppendAllText(fullPath, JsonConvert.SerializeObject(job), Encoding.UTF8);
 
-            ImportTask task = job.AddTask("Fetching article list from Borger.dk").Start();
+    }
 
-            articles = new Dictionary<string, BorgerDkArticleDescription>();
+    private bool FetchArticleList(ImportJob job, out Dictionary<string, BorgerDkArticleDescription> articles) {
 
-            foreach (BorgerDkEndpoint endpoint in BorgerDkEndpoint.Values) {
+        ImportTask task = job.AddTask("Fetching article list from Borger.dk").Start();
 
-                ImportTask endpointTask = task.AddTask($"Fetching articles from {endpoint.Domain}").Start();
+        articles = new Dictionary<string, BorgerDkArticleDescription>();
 
-                try {
+        foreach (BorgerDkEndpoint endpoint in BorgerDkEndpoint.Values) {
 
-                    // Initialize a new service instance for the endpoint
-                    BorgerDkHttpService borgerdk = new(endpoint);
-
-                    // Fetch the article list
-                    IReadOnlyList<BorgerDkArticleDescription> list = borgerdk.GetArticleList();
-
-                    // Add the articles to the dictionary
-                    foreach (BorgerDkArticleDescription row in list) {
-                        articles.Add(endpoint.Domain + "_" + row.Id, row);
-                    }
-
-                    endpointTask
-                        .AppendToMessage($"Found {list.Count} articles")
-                        .Completed();
-
-                } catch (Exception ex) {
-
-                    _logger.LogError(ex, "Failed fetching articles for endpoint {Endpoint}.", endpoint.Domain);
-
-                    endpointTask.Failed(ex);
-
-                    break;
-
-                }
-
-            }
-
-            if (task.Status != ImportStatus.Failed) task.Completed();
-
-            return task.Status != ImportStatus.Failed;
-
-        }
-
-        private bool FetchArticlesFromDatabase(ImportJob job, [NotNullWhen(true)] out IReadOnlyList<BorgerDkArticleDto>? result) {
-
-            ImportTask task = job.AddTask("Fetching existing articles from the database").Start();
-
-            result = null;
+            ImportTask endpointTask = task.AddTask($"Fetching articles from {endpoint.Domain}").Start();
 
             try {
 
-                result = GetAllArticlesDtos();
+                // Initialize a new service instance for the endpoint
+                BorgerDkHttpService borgerdk = new(endpoint);
 
-                task.AppendToMessage($"Found {result.Count} {StringUtils.ToPlural("article", result.Count)}").Completed();
+                // Fetch the article list
+                IReadOnlyList<BorgerDkArticleDescription> list = borgerdk.GetArticleList();
 
-                return true;
+                // Add the articles to the dictionary
+                foreach (BorgerDkArticleDescription row in list) {
+                    articles.Add(endpoint.Domain + "_" + row.Id, row);
+                }
+
+                endpointTask
+                    .AppendToMessage($"Found {list.Count} articles")
+                    .Completed();
 
             } catch (Exception ex) {
 
-                _logger.LogError(ex, "Failed fetching existing articles for the database.");
+                _logger.LogError(ex, "Failed fetching articles for endpoint {Endpoint}.", endpoint.Domain);
 
-                task.Failed(ex);
+                endpointTask.Failed(ex);
 
-                return false;
+                break;
 
             }
 
         }
 
-        private void SynchronizeArticles(ImportJob job, Dictionary<string, BorgerDkArticleDescription> fromApi, IReadOnlyList<BorgerDkArticleDto> fromDb) {
+        if (task.Status != ImportStatus.Failed) task.Completed();
 
-            ImportTask task = job.AddTask("Synchronizing articles").Start();
+        return task.Status != ImportStatus.Failed;
 
-            int updated = 0;
-            int skipped = 0;
+    }
 
-            foreach (BorgerDkArticleDto dto in fromDb) {
+    private bool FetchArticlesFromDatabase(ImportJob job, [NotNullWhen(true)] out IReadOnlyList<BorgerDkArticleDto>? result) {
 
-                ImportTask articleTask = task.AddTask($"Synchronizing article with unique ID {dto.Id}.").Start();
+        ImportTask task = job.AddTask("Fetching existing articles from the database").Start();
 
-                try {
+        result = null;
 
-                    if (fromApi.TryGetValue(dto.Domain + "_" + dto.ArticleId, out var value)) {
+        try {
 
-                        if (value.UpdateDate > dto.UpdateDate) {
+            result = GetAllArticlesDtos();
 
-                            ImportTask fetchTask = articleTask.AddTask("Fetching article content from web service").Start();
+            task.AppendToMessage($"Found {result.Count} {StringUtils.ToPlural("article", result.Count)}").Completed();
 
-                            BorgerDkArticle article;
+            return true;
 
-                            try {
+        } catch (Exception ex) {
 
-                                // Get the endpoint from the domain
-                                BorgerDkEndpoint? endpoint = BorgerDkEndpoint.GetFromDomain(dto.Domain);
-                                if (endpoint is null) throw new Exception($"Endpoint with domain '{dto.Domain}' not found.");
+            _logger.LogError(ex, "Failed fetching existing articles for the database.");
 
-                                // Initialize a new service instance from the endpoint
-                                BorgerDkHttpService service = new(endpoint);
+            task.Failed(ex);
 
-                                // Get the municipality from the code
-                                BorgerDkMunicipality municipality = BorgerDkMunicipality.GetFromCode(dto.Municipality);
+            return false;
 
-                                // Fetch the article from the web service
-                                article = service.GetArticleFromId(dto.ArticleId, municipality);
+        }
 
-                                // Update the task status
-                                fetchTask.Completed();
+    }
 
-                            } catch (Exception ex) {
+    private void SynchronizeArticles(ImportJob job, Dictionary<string, BorgerDkArticleDescription> fromApi, IReadOnlyList<BorgerDkArticleDto> fromDb) {
 
-                                fetchTask.Failed(ex);
+        ImportTask task = job.AddTask("Synchronizing articles").Start();
 
-                                articleTask.Stop();
+        int updated = 0;
+        int skipped = 0;
 
-                                continue;
+        foreach (BorgerDkArticleDto dto in fromDb) {
 
-                            }
+            ImportTask articleTask = task.AddTask($"Synchronizing article with unique ID {dto.Id}.").Start();
 
-                            try {
+            try {
 
-                                Import(article);
+                if (fromApi.TryGetValue(dto.Domain + "_" + dto.ArticleId, out var value)) {
 
-                                articleTask.Completed(ImportAction.Updated);
+                    if (value.UpdateDate > dto.UpdateDate) {
 
-                                updated++;
+                        ImportTask fetchTask = articleTask.AddTask("Fetching article content from web service").Start();
 
-                            } catch (Exception ex) {
+                        BorgerDkArticle article;
 
-                                articleTask.Failed(ex);
+                        try {
 
-                            }
+                            // Get the endpoint from the domain
+                            BorgerDkEndpoint? endpoint = BorgerDkEndpoint.GetFromDomain(dto.Domain);
+                            if (endpoint is null) throw new Exception($"Endpoint with domain '{dto.Domain}' not found.");
 
-                        } else {
+                            // Initialize a new service instance from the endpoint
+                            BorgerDkHttpService service = new(endpoint);
 
-                            articleTask
-                                .AppendToMessage("No changes found ... skipping article.")
-                                .Completed(ImportAction.NotModified);
+                            // Get the municipality from the code
+                            BorgerDkMunicipality municipality = BorgerDkMunicipality.GetFromCode(dto.Municipality);
 
-                            skipped++;
+                            // Fetch the article from the web service
+                            article = service.GetArticleFromId(dto.ArticleId, municipality);
+
+                            // Update the task status
+                            fetchTask.Completed();
+
+                        } catch (Exception ex) {
+
+                            fetchTask.Failed(ex);
+
+                            articleTask.Stop();
+
+                            continue;
+
+                        }
+
+                        try {
+
+                            Import(article);
+
+                            articleTask.Completed(ImportAction.Updated);
+
+                            updated++;
+
+                        } catch (Exception ex) {
+
+                            articleTask.Failed(ex);
 
                         }
 
                     } else {
 
                         articleTask
-                            .AppendToMessage("Article no longer exists in web service ... ignoring for now.")
-                            .Completed(ImportAction.Deleted);
+                            .AppendToMessage("No changes found ... skipping article.")
+                            .Completed(ImportAction.NotModified);
 
                         skipped++;
 
                     }
 
-                } catch (Exception ex) {
+                } else {
 
-                    //_logger.Error<BorgerDkService>(ex, "Failed fetching articles for endpoint {Endpoint}.", endpoint.Domain);
+                    articleTask
+                        .AppendToMessage("Article no longer exists in web service ... ignoring for now.")
+                        .Completed(ImportAction.Deleted);
 
-                    articleTask.Failed(ex);
-
-                    break;
+                    skipped++;
 
                 }
 
+            } catch (Exception ex) {
+
+                //_logger.Error<BorgerDkService>(ex, "Failed fetching articles for endpoint {Endpoint}.", endpoint.Domain);
+
+                articleTask.Failed(ex);
+
+                break;
+
             }
-
-            // Update the task
-            if (task.Status == ImportStatus.Failed) {
-                task.Stop();
-                return;
-            }
-
-            List<string> message = new() {
-                $"updated {updated} {StringUtils.ToPlural("article", updated)}",
-                $"skipped {skipped} {StringUtils.ToPlural("article", skipped)}"
-            };
-
-
-            task
-                .AppendToMessage(string.Join(" and ", message).FirstCharToUpper())
-                .Completed();
 
         }
+
+        // Update the task
+        if (task.Status == ImportStatus.Failed) {
+            task.Stop();
+            return;
+        }
+
+        List<string> message = new() {
+            $"updated {updated} {StringUtils.ToPlural("article", updated)}",
+            $"skipped {skipped} {StringUtils.ToPlural("article", skipped)}"
+        };
+
+
+        task
+            .AppendToMessage(string.Join(" and ", message).FirstCharToUpper())
+            .Completed();
 
     }
 

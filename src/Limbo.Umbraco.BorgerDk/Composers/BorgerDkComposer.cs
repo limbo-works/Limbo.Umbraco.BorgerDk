@@ -8,30 +8,28 @@ using Umbraco.Cms.Core.DependencyInjection;
 
 #pragma warning disable 1591
 
-namespace Limbo.Umbraco.BorgerDk.Composers {
+namespace Limbo.Umbraco.BorgerDk.Composers;
 
-    public class BorgerDkComposer : IComposer {
+public class BorgerDkComposer : IComposer {
 
-        public void Compose(IUmbracoBuilder builder) {
+    public void Compose(IUmbracoBuilder builder) {
 
-            // Register services
-            builder.Services
-                .AddTransient<BorgerDkService>()
-                .AddSingleton<BorgerDkCache>()
-                .AddSingleton<BorgerDkImportTaskSettings>()
-                .AddHostedService<BorgerDkImportTask>();
+        // Register services
+        builder.Services
+            .AddTransient<BorgerDkService>()
+            .AddSingleton<BorgerDkCache>()
+            .AddSingleton<BorgerDkImportTaskSettings>()
+            .AddHostedService<BorgerDkImportTask>();
 
-            // Register cache refresher
-            builder.CacheRefreshers()
-                .Add<BorgerDkCacheRefresher>();
+        // Register cache refresher
+        builder.CacheRefreshers()
+            .Add<BorgerDkCacheRefresher>();
 
-            // Register notifications
-            builder
-                .AddNotificationHandler<BorgerDkArticleUpdatedNotification, BorgerDkArticleUpdatedHandler>();
+        // Register notifications
+        builder
+            .AddNotificationHandler<BorgerDkArticleUpdatedNotification, BorgerDkArticleUpdatedHandler>();
 
-            builder.ManifestFilters().Append<BorgerDkManifestFilter>();
-
-        }
+        builder.ManifestFilters().Append<BorgerDkManifestFilter>();
 
     }
 
