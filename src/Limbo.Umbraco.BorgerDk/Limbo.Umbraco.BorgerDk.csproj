@@ -21,13 +21,21 @@
 
   <!-- Information for the NuGet package -->
   <PropertyGroup>
-    <PackageTags>Skybrud, Umbraco, Borger.dk, selvbetjening, web service, artikel</PackageTags>
+    <PackageTags>Skybrud, Limbo, Umbraco, Borger.dk, selvbetjening, web service, article, Umbraco-Marketplace</PackageTags>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
     <PackageProjectUrl>https://packages.limbo.works/limbo.umbraco.borgerdk/v10/</PackageProjectUrl>
     <PackageIcon>Limbo.png</PackageIcon>
     <RepositoryType>git</RepositoryType>
     <RepositoryUrl>https://github.com/limbo-works/Limbo.Umbraco.BorgerDk</RepositoryUrl>
   </PropertyGroup>
+
+  <!-- Include additional metadata in the assembly -->
+  <ItemGroup>
+    <AssemblyMetadata Include="PackageProjectUrl" Value="https://packages.limbo.works/limbo.umbraco.borgerdk/" />
+    <AssemblyMetadata Include="DocumentationUrl" Value="https://packages.limbo.works/limbo.umbraco.borgerdk/docs/v10/" />
+    <AssemblyMetadata Include="NuGetUrl" Value="https://www.nuget.org/packages/Limbo.Umbraco.BorgerDk" />
+    <AssemblyMetadata Include="UmbracoMarketplaceUrl" Value="https://marketplace.umbraco.com/package/limbo.umbraco.borgerdk" />
+  </ItemGroup>
 
   <!-- Include NuGet dependencies -->
   <ItemGroup>
