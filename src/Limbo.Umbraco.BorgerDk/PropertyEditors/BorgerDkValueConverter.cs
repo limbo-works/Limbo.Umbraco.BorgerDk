@@ -62,12 +62,12 @@ public class BorgerDkValueConverter : PropertyValueConverterBase {
         BorgerDkConfiguration? config = propertyType.DataType.Configuration as BorgerDkConfiguration;
 
         // Get the allowed types from the data type (empty means all types are allowed)
-        HashSet<string> allowed = config?.AllowedTypes.ToHashSet() ?? new HashSet<string>();
+        HashSet<string> allowed = config?.AllowedTypes.ToHashSet() ?? [];
 
         // Get the IDs of the selected elements
         IReadOnlyList<string> selection = json.GetStringArray("selection");
 
-        List<BorgerDkPublishedElement> elements = new();
+        List<BorgerDkPublishedElement> elements = [];
 
         foreach (BorgerDkElement element in article.Elements) {
 

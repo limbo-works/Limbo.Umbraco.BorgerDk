@@ -20,7 +20,7 @@ public class BorgerDkConfiguration {
     /// Gets or sets an array with the allowed types. If <c>null</c> or empty, all types are allowed.
     /// </summary>
     [ConfigurationField("allowedTypes", "Allowed types", "/App_Plugins/Limbo.Umbraco.BorgerDk/Views/AllowedTypes.html", Description = "Select the element types that should be allowed.")]
-    public List<string> AllowedTypes { get; set; } = new();
+    public List<string> AllowedTypes { get; set; } = [];
 
     /// <summary>
     /// Gets or sets whether the property editor label should be hidden.

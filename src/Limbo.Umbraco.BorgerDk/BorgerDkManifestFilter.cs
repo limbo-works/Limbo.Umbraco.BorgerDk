@@ -15,7 +15,7 @@ public class BorgerDkManifestFilter : IManifestFilter {
             AllowPackageTelemetry = true,
             PackageName = BorgerDkPackage.Name,
             Version = BorgerDkPackage.InformationalVersion,
-            Scripts = new[] {
+            Scripts = [
                 "/App_Plugins/Limbo.Umbraco.BorgerDk/Scripts/Services/BorgerDkService.js",
                 "/App_Plugins/Limbo.Umbraco.BorgerDk/Scripts/Directives/Item.js",
                 "/App_Plugins/Limbo.Umbraco.BorgerDk/Scripts/Controllers/AllowedTypes.js",
@@ -24,10 +24,10 @@ public class BorgerDkManifestFilter : IManifestFilter {
                 "/App_Plugins/Limbo.Umbraco.BorgerDk/Scripts/Controllers/Municipality.js",
                 "/App_Plugins/Limbo.Umbraco.BorgerDk/Scripts/Controllers/Overlay.js",
                 "/App_Plugins/Limbo.Umbraco.BorgerDk/Scripts/Controllers/SearchOverlay.js"
-            },
-            Stylesheets = new[] {
+            ],
+            Stylesheets = [
                 "/App_Plugins/Limbo.Umbraco.BorgerDk/Styles/BorgerDk.css"
-            }
+            ]
         };
 
         // The "PackageId" property isn't available prior to Umbraco 12, and since the package is build against
