@@ -12,11 +12,11 @@ namespace Limbo.Umbraco.BorgerDk.PropertyEditors;
 [DataEditor(EditorAlias, EditorType.PropertyValue, "Limbo Borger.dk", EditorView, ValueType = ValueTypes.Json, Group = "Limbo", Icon = EditorIcon)]
 public class BorgerDkPropertyEditor : DataEditor {
 
-    internal const string EditorAlias = "Limbo.Umbraco.BorgerDk";
+    public const string EditorAlias = "Limbo.Umbraco.BorgerDk";
 
-    internal const string EditorIcon = "icon-school color-limbo";
+    public const string EditorIcon = "icon-school color-limbo";
 
-    internal const string EditorView = "/App_Plugins/Limbo.Umbraco.BorgerDk/Views/Editor.html";
+    public const string EditorView = "/App_Plugins/Limbo.Umbraco.BorgerDk/Views/Editor.html";
 
     private readonly IIOHelper _ioHelper;
     private readonly IEditorConfigurationParser _editorConfigurationParser;
