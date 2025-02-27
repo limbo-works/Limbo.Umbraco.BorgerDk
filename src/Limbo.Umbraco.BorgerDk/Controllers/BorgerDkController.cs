@@ -101,7 +101,7 @@ public class BorgerDkController : UmbracoAuthorizedApiController {
 
     public object GetArticleByUrl() {
 
-        string url = HttpContext.Request.Query["url"];
+        string? url = HttpContext.Request.Query["url"];
         int municipalityCode = StringUtils.ParseInt32(HttpContext.Request.Query["municipality"]);
 
         if (string.IsNullOrWhiteSpace(url)) {

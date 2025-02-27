@@ -37,7 +37,7 @@ public class BorgerDkArticleSchema {
     public int Municipality { get; set; }
 
     [Column("Meta")]
-    [SpecialDbType(SpecialDbTypes.NTEXT)]
+    [SpecialDbType(SpecialDbTypes.NVARCHARMAX)]
     public string Meta { get; set; } = null!;
 
     [Column("CreateDate")]

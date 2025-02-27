@@ -10,7 +10,6 @@ using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
 using Skybrud.Essentials.Strings;
 using Skybrud.Essentials.Strings.Extensions;
-using Umbraco.Cms.Core;
 using Umbraco.Cms.Core.Extensions;
 
 namespace Limbo.Umbraco.BorgerDk;
@@ -48,7 +47,7 @@ public partial class BorgerDkService {
     /// <param name="job">The job.</param>
     public void WriteToLog(ImportJob job) {
 
-        string path = Path.Combine(Constants.SystemDirectories.LogFiles, BorgerDkPackage.Alias, $"{DateTime.UtcNow:yyyyMMddHHmmss}.txt");
+        string path = Path.Combine($"~/umbraco/Logs/{BorgerDkPackage.Alias}", BorgerDkPackage.Alias, $"{DateTime.UtcNow:yyyyMMddHHmmss}.txt");
 
         string fullPath = _webHostEnvironment.MapPathContentRoot(path);
 
