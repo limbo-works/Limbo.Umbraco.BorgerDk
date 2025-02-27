@@ -22,16 +22,16 @@ The major versions of this package aligns with the corresponding major versions 
 
 **Umbraco 10**  
 
-Version 10 of this package is build against Umbraco 10, but also indirectly also supports Umbraco 11 and 12. The package is only available via [**NuGet**](https://www.nuget.org/packages/Limbo.Umbraco.BorgerDk/10.0.0-alpha003). To install the package, you can use either the .NET CLI:
+Version 10 of this package is build against Umbraco 10, but also indirectly also supports Umbraco 11 and 12. The package is only available via [**NuGet**](https://www.nuget.org/packages/Limbo.Umbraco.BorgerDk/10.0.0). To install the package, you can use either the .NET CLI:
 
 ```
-dotnet add package Limbo.Umbraco.BorgerDk --version 10.0.0-alpha003
+dotnet add package Limbo.Umbraco.BorgerDk --version 10.0.0
 ```
 
 or the NuGet Package Manager:
 
 ```
-Install-Package Limbo.Umbraco.BorgerDk -Version 10.0.0-alpha003
+Install-Package Limbo.Umbraco.BorgerDk -Version 10.0.0
 ```
 
 ### Documentation
