@@ -13,7 +13,7 @@ public class BorgerDkCache {
 
     private readonly BorgerDkService _borgerDkService;
 
-    private Dictionary<string, BorgerDkArticle> _articles = new();
+    private Dictionary<string, BorgerDkArticle>? _articles;
 
     #region Constructors
 
@@ -22,7 +22,6 @@ public class BorgerDkCache {
     /// </summary>
     public BorgerDkCache(BorgerDkService borgerDkService) {
         _borgerDkService = borgerDkService;
-        RefreshAll(); // TODO: is it wise to call this in the constructor?
     }
 
     #endregion
@@ -61,7 +60,7 @@ public class BorgerDkCache {
     /// <returns><c>true</c> if the cache contains an article matching the specified parameters; otherwise, <c>false</c>.</returns>
     public bool TryGetArticle(string domain, int municipality, int articleId, [NotNullWhen(true)] out BorgerDkArticle? article) {
         string uniqueId = BorgerDkUtils.GetUniqueId(domain, municipality, articleId);
-        return _articles.TryGetValue(uniqueId, out article);
+        return GetArticlesFromCache().TryGetValue(uniqueId, out article);
     }
 
     /// <summary>
@@ -71,8 +70,13 @@ public class BorgerDkCache {
     public void AddOrUpdate(BorgerDkArticle article) {
         if (article == null) throw new ArgumentNullException(nameof(article));
         string uniqueId = BorgerDkUtils.GetUniqueId(article);
-        _articles[uniqueId] = article;
+        GetArticlesFromCache()[uniqueId] = article;
         Console.WriteLine(" - Successfully updated article " + article.Id + " in the cache.");
+    }
+
+    private Dictionary<string, BorgerDkArticle> GetArticlesFromCache() {
+        if (_articles is null) RefreshAll();
+        return _articles!;
     }
 
     #endregion
