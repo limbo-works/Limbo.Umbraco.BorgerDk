@@ -106,10 +106,15 @@ public partial class BorgerDkService {
     /// </summary>
     /// <returns>An array of <see cref="BorgerDkArticle"/>.</returns>
     public IReadOnlyList<BorgerDkArticle> GetAllArticles() {
-        return GetAllArticlesDtos().Where(x => x.Meta is not null).SelectList(x => x.Meta!);
+        return GetAllArticleDtos().Where(x => x.Meta is not null).SelectList(x => x.Meta!);
     }
 
-    private IReadOnlyList<BorgerDkArticleDto> GetAllArticlesDtos() {
+    /// <summary>
+    /// Returns a list of all article DTOs.
+    /// </summary>
+    /// <returns>A list of <see cref="BorgerDkArticleDto"/>.</returns>
+    /// <exception cref="Exception"></exception>
+    public IReadOnlyList<BorgerDkArticleDto> GetAllArticleDtos() {
 
         using IScope scope = _scopeProvider.CreateScope(autoComplete: true);
 
