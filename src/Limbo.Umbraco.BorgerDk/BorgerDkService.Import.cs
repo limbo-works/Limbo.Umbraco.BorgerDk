@@ -111,7 +111,7 @@ public partial class BorgerDkService {
 
         try {
 
-            result = GetAllArticlesDtos();
+            result = GetAllArticleDtos();
 
             task.AppendToMessage($"Found {result.Count} {StringUtils.ToPlural("article", result.Count)}").Completed();
 
