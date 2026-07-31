@@ -29,7 +29,8 @@ public class BorgerDkComposer : IComposer {
         builder
             .AddNotificationHandler<BorgerDkArticleUpdatedNotification, BorgerDkArticleUpdatedHandler>();
 
-        builder.ManifestFilters().Append<BorgerDkManifestFilter>();
+        // Umbraco 14 removed IManifestFilter - the backoffice assets of this package are declared in
+        // "wwwroot/umbraco-package.json" instead, which Umbraco picks up from App_Plugins automatically.
 
     }
 

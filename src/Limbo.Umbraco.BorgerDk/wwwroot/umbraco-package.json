@@ -1,0 +1,14 @@
+{
+  "id": "Limbo.Umbraco.BorgerDk",
+  "name": "Limbo Borger.dk",
+  "version": "17.0.0-alpha000",
+  "allowPackageTelemetry": true,
+  "extensions": [
+    {
+      "type": "backofficeEntryPoint",
+      "alias": "Limbo.Umbraco.BorgerDk.EntryPoint",
+      "name": "Limbo Borger.dk Entry Point",
+      "js": "/App_Plugins/Limbo.Umbraco.BorgerDk/dist/limbo-borgerdk.js"
+    }
+  ]
+}

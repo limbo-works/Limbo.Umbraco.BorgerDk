@@ -1,9 +1,0 @@
-﻿[
-  {
-    "outputFile": "App_Plugins/Skybrud.Umbraco.BorgerDk/Styles/BorgerDk.css",
-    "inputFile": "App_Plugins/Skybrud.Umbraco.BorgerDk/Styles/BorgerDk.less",
-    "minify": {
-      "enabled": false
-    }
-  }
-]

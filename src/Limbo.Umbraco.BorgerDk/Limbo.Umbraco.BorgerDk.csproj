@@ -3,14 +3,19 @@
 <Project Sdk="Microsoft.NET.Sdk.Razor">
 
   <PropertyGroup>
-    <TargetFramework>net8.0</TargetFramework>
+    <TargetFramework>net10.0</TargetFramework>
     <StaticWebAssetBasePath>App_Plugins/$(AssemblyName)</StaticWebAssetBasePath>
     <Nullable>enable</Nullable>
+    <!-- Skybrud.Essentials.Umbraco 17.0.0-alpha003 requires Umbraco >= 17.1.0, while the dependency range we
+         advertise for this package starts at 17.0.0. Restore resolves to the lower bound, so NuGet reports a
+         downgrade - the advertised range is intentional, so the warning is suppressed. -->
+    <NoWarn>$(NoWarn);NU1605</NoWarn>
   </PropertyGroup>
 
   <PropertyGroup>
-    <VersionPrefix>13.0.1</VersionPrefix>
-    <VersionSuffix Condition="'$(Configuration)'=='Debug'">build$([System.DateTime]::UtcNow.ToString(`yyyyMMddHHmm`))</VersionSuffix>
+    <VersionPrefix>17.0.0</VersionPrefix>
+    <VersionSuffix>alpha000</VersionSuffix>
+    <VersionSuffix Condition="'$(Configuration)'=='Debug'">alpha000.build$([System.DateTime]::UtcNow.ToString(`yyyyMMddHHmm`))</VersionSuffix>
     <Company>Limbo</Company>
     <Authors>Anders Bjerner</Authors>
     <Copyright>Copyright © $([System.DateTime]::UtcNow.ToString(`yyyy`))</Copyright>
@@ -22,7 +27,7 @@
   <PropertyGroup>
     <PackageTags>Skybrud, Limbo, Umbraco, Borger.dk, selvbetjening, web service, article, Umbraco-Marketplace</PackageTags>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
-    <PackageProjectUrl>https://packages.limbo.works/limbo.umbraco.borgerdk/v13/</PackageProjectUrl>
+    <PackageProjectUrl>https://packages.limbo.works/limbo.umbraco.borgerdk/v17/</PackageProjectUrl>
     <PackageIcon>Limbo.png</PackageIcon>
     <RepositoryType>git</RepositoryType>
     <RepositoryUrl>https://github.com/limbo-works/Limbo.Umbraco.BorgerDk</RepositoryUrl>
@@ -31,31 +36,34 @@
   <!-- Include additional metadata in the assembly -->
   <ItemGroup>
     <AssemblyMetadata Include="PackageProjectUrl" Value="https://packages.limbo.works/limbo.umbraco.borgerdk/" />
-    <AssemblyMetadata Include="DocumentationUrl" Value="https://packages.limbo.works/limbo.umbraco.borgerdk/docs/v13/" />
+    <AssemblyMetadata Include="DocumentationUrl" Value="https://packages.limbo.works/limbo.umbraco.borgerdk/docs/v17/" />
     <AssemblyMetadata Include="NuGetUrl" Value="https://www.nuget.org/packages/Limbo.Umbraco.BorgerDk" />
     <AssemblyMetadata Include="UmbracoMarketplaceUrl" Value="https://marketplace.umbraco.com/package/limbo.umbraco.borgerdk" />
   </ItemGroup>
 
   <!-- Include NuGet dependencies -->
   <ItemGroup>
+    <!-- Referenced explicitly rather than relied on transitively via Umbraco. Used by BorgerDkHtmlSanitizer. -->
+    <PackageReference Include="HtmlAgilityPack" Version="1.12.4" />
     <PackageReference Include="Limbo.Integrations.BorgerDk" Version="1.0.4" />
-    <PackageReference Include="Skybrud.Essentials" Version="1.1.59" />
-    <PackageReference Include="Skybrud.Essentials.Umbraco" Version="13.0.2" />
-    <PackageReference Include="Umbraco.Cms.Core" Version="[13.0.0,13.999)" NoWarn="NU1902" />
-    <PackageReference Include="Umbraco.Cms.Web.Website" Version="[13.0.0,13.999)" NoWarn="NU1902" />
-    <PackageReference Include="Umbraco.Cms.Web.BackOffice" Version="[13.0.0,13.999)" NoWarn="NU1902" />
+    <PackageReference Include="Skybrud.Essentials" Version="1.1.68" />
+    <PackageReference Include="Skybrud.Essentials.Umbraco" Version="17.0.0-alpha003" />
+    <PackageReference Include="Umbraco.Cms.Core" Version="[17.0.0,17.9.9)" />
+    <PackageReference Include="Umbraco.Cms.Infrastructure" Version="[17.0.0,17.9.9)" />
+    <PackageReference Include="Umbraco.Cms.Web.Website" Version="[17.0.0,17.9.9)" />
+    <PackageReference Include="Umbraco.Cms.Api.Management" Version="[17.0.0,17.9.9)" />
   </ItemGroup>
 
-  <!-- Include backoffice assets -->
+  <!-- Include backoffice assets. "Client" holds the TypeScript sources and is not shipped - only the
+       "umbraco-package.json" manifest and the bundle Vite emits into "wwwroot/App_Plugins" are. -->
   <ItemGroup>
     <Content Remove="wwwroot\**\*" />
-    <Content Remove="compilerconfig.json" />
-    <Content Include="wwwroot\**\*.css" />
-    <Content Include="wwwroot\**\*.html" />
+    <Content Include="wwwroot\umbraco-package.json" />
     <Content Include="wwwroot\**\*.js" />
-    <Content Include="wwwroot\Lang\*.xml" />
-    <None Include="wwwroot\**\*.less" />
-    <None Include="compilerconfig.json" />
+    <Content Include="wwwroot\**\*.map" />
+    <Compile Remove="Client\**" />
+    <Content Remove="Client\**" />
+    <None Remove="Client\**" />
   </ItemGroup>
 
   <!-- Include package icon for NuGet -->
