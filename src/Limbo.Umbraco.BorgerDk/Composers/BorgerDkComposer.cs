@@ -1,4 +1,5 @@
-﻿using Limbo.Umbraco.BorgerDk.Caching;
+﻿using Limbo.Umbraco.BorgerDk.Api;
+using Limbo.Umbraco.BorgerDk.Caching;
 using Limbo.Umbraco.BorgerDk.Manifests;
 using Limbo.Umbraco.BorgerDk.NotificationHandlers;
 using Limbo.Umbraco.BorgerDk.Notifications;
@@ -38,6 +39,7 @@ public class BorgerDkComposer : IComposer {
         builder.AddPackageManifestReader<BorgerDkPackageManifestReader>();
 
 
+        builder.Services.ConfigureOptions<BorgerDkSwaggerGenOptions>();
 
 
         // Umbraco 14 removed IManifestFilter - the backoffice assets of this package are declared in

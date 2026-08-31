@@ -11,4 +11,4 @@ export const BORGERDK_MUNICIPALITY_UI_ALIAS = 'Limbo.Umbraco.BorgerDk.Municipali
 export const BORGERDK_ALLOWED_TYPES_UI_ALIAS = 'Limbo.Umbraco.BorgerDk.AllowedTypesPicker';
 
 /** Base URL of the Management API endpoints of this package. */
-export const BORGERDK_API_BASE = '/umbraco/management/api/v1/borgerdk';
+export const BORGERDK_API_BASE = '/umbraco/management/api/v1/limbo/borgerdk';
