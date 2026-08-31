@@ -49,7 +49,7 @@ public class BorgerDkPublishedArticle {
     public string ByLine => Article.ByLine;
 
     /// <summary>
-    /// Gets an array with the IDs for the selected article lements.
+    /// Gets an array with the IDs for the selected article elements.
     /// </summary>
     [JsonIgnore]
     public IReadOnlyList<string> Selection { get; }
@@ -69,7 +69,7 @@ public class BorgerDkPublishedArticle {
     /// </summary>
     /// <param name="article">The Borger.dk article the instance should be based on.</param>
     /// <param name="selection">A list with the IDs of the selected elements.</param>
-    /// <param name="elements">A list of the elements that should make up this instance..</param>
+    /// <param name="elements">A list of the elements that should make up this instance.</param>
     public BorgerDkPublishedArticle(BorgerDkArticle article, IReadOnlyList<string> selection, IReadOnlyList<BorgerDkPublishedElement> elements) {
         Article = article;
         Selection = selection;

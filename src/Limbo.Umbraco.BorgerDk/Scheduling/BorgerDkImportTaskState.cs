@@ -8,7 +8,7 @@ namespace Limbo.Umbraco.BorgerDk.Scheduling;
 public enum BorgerDkImportTaskState {
 
     /// <summary>
-    /// Indiciates that the state is automatically resolved based on the current server role. If the server role is
+    /// Indicates that the state is automatically resolved based on the current server role. If the server role is
     /// either <see cref="ServerRole.Subscriber"/> or <see cref="ServerRole.Unknown"/>, the task will not run.
     /// </summary>
     Auto,

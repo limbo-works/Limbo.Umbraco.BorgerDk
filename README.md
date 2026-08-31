@@ -1,6 +1,6 @@
 # Limbo Borger.dk
 
-[![GitHub license](https://img.shields.io/badge/license-MIT-blue.svg)](https://github.com/limbo-works/Limbo.Umbraco.BorgerDk/blob/v13/main/LICENSE.md)
+[![GitHub license](https://img.shields.io/badge/license-MIT-blue.svg)](https://github.com/limbo-works/Limbo.Umbraco.BorgerDk/blob/v17/main/LICENSE.md)
 [![NuGet](https://img.shields.io/nuget/v/Limbo.Umbraco.BorgerDk.svg)](https://www.nuget.org/packages/Limbo.Umbraco.BorgerDk)
 [![NuGet](https://img.shields.io/nuget/dt/Limbo.Umbraco.BorgerDk.svg)](https://www.nuget.org/packages/Limbo.Umbraco.BorgerDk)
 [![Limbo.Umbraco.BorgerDk at packages.limbo.works](https://img.shields.io/badge/limbo-packages-blue)](https://packages.limbo.works/limbo.umbraco.borgerdk/)

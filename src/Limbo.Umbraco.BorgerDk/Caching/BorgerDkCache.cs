@@ -18,7 +18,7 @@ public class BorgerDkCache {
     #region Constructors
 
     /// <summary>
-    /// Initializes a new instanced based on the specified DI depenencies.
+    /// Initializes a new instanced based on the specified DI dependencies.
     /// </summary>
     public BorgerDkCache(BorgerDkService borgerDkService) {
         _borgerDkService = borgerDkService;

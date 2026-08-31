@@ -41,7 +41,7 @@ public class BorgerDkConfiguration {
     /// </summary>
     /// <remarks>
     /// Umbraco 14+ moved "hide label" to the property itself on the document type, and nothing in the backoffice
-    /// reads a data type level flag any more. The property is therefore inert, and is only retained so existing
+    /// reads a data type level flag anymore. The property is therefore inert, and is only retained so existing
     /// data type configuration keeps deserializing. It is deliberately not offered in the property editor UI
     /// manifest, and should be removed in a future major version.
     /// </remarks>

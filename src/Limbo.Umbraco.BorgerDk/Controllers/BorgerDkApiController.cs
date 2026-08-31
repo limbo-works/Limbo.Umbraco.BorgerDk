@@ -26,18 +26,18 @@ namespace Limbo.Umbraco.BorgerDk.Controllers;
 public class BorgerDkApiController : BorgerDkManagementApiControllerBase {
 
     private readonly IServerRoleAccessor _serverRoleAccessor;
-    private readonly BorgerDkService _borgerdk;
+    private readonly BorgerDkService _borgerDkService;
     private readonly BorgerDkImportTaskSettings _importSettings;
     private readonly ILogger<BorgerDkApiController> _logger;
     private readonly IAppPolicyCache _runtimeCache;
 
     public BorgerDkApiController(IServerRoleAccessor serverRoleAccessor,
-        BorgerDkService borgerdk,
+        BorgerDkService borgerDkService,
         BorgerDkImportTaskSettings importSettings,
         ILogger<BorgerDkApiController> logger,
         AppCaches appCaches) {
         _serverRoleAccessor = serverRoleAccessor;
-        _borgerdk = borgerdk;
+        _borgerDkService = borgerDkService;
         _importSettings = importSettings;
         _logger = logger;
         _runtimeCache = appCaches.RuntimeCache;
@@ -55,10 +55,10 @@ public class BorgerDkApiController : BorgerDkManagementApiControllerBase {
     public IActionResult Import() {
 
         // Run a new import
-        ImportJob result = _borgerdk.Import();
+        ImportJob result = _borgerDkService.Import();
 
         // Save the result to the disk
-        _borgerdk.WriteToLog(result);
+        _borgerDkService.WriteToLog(result);
 
         // Return the result for the API
         return Ok(ImportTaskModel.Create(result));
@@ -181,7 +181,7 @@ public class BorgerDkApiController : BorgerDkManagementApiControllerBase {
         }
 
         // Make sure to import/update the article
-        _borgerdk.Import(article);
+        _borgerDkService.Import(article);
 
         List<BorgerDkElementModel> elements = [];
 
