@@ -1,8 +1,6 @@
 src/.vs/
+src/Client/node_modules/
+src/Client/obj/
 src/Limbo.Umbraco.BorgerDk/bin/
 src/Limbo.Umbraco.BorgerDk/obj/
-
-# The backoffice client. "wwwroot/dist" is the Vite output and IS committed, so that "dotnet pack" produces a
-# complete package without requiring Node.
-src/Limbo.Umbraco.BorgerDk/Client/node_modules/
-src/Limbo.Umbraco.BorgerDk/wwwroot/dist/
+src/Limbo.Umbraco.BorgerDk/wwwroot/
