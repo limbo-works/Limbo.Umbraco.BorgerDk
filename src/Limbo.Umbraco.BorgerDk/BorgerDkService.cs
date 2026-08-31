@@ -7,7 +7,7 @@ using Limbo.Umbraco.BorgerDk.Notifications;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Logging;
 using NPoco;
-using Skybrud.Essentials.Collections.Extensions;
+using Skybrud.Essentials.Collections.Enumerables.Extensions;
 using Umbraco.Cms.Core.Events;
 using Umbraco.Cms.Infrastructure.Persistence;
 using Umbraco.Cms.Infrastructure.Scoping;

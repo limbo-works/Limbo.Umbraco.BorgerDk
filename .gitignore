@@ -1,3 +1,6 @@
 src/.vs/
+src/Client/node_modules/
+src/Client/obj/
 src/Limbo.Umbraco.BorgerDk/bin/
 src/Limbo.Umbraco.BorgerDk/obj/
+src/Limbo.Umbraco.BorgerDk/wwwroot/

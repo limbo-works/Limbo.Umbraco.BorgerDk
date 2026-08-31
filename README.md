@@ -1,6 +1,6 @@
 # Limbo Borger.dk
 
-[![GitHub license](https://img.shields.io/badge/license-MIT-blue.svg)](https://github.com/limbo-works/Limbo.Umbraco.BorgerDk/blob/v13/main/LICENSE.md)
+[![GitHub license](https://img.shields.io/badge/license-MIT-blue.svg)](https://github.com/limbo-works/Limbo.Umbraco.BorgerDk/blob/v17/main/LICENSE.md)
 [![NuGet](https://img.shields.io/nuget/v/Limbo.Umbraco.BorgerDk.svg)](https://www.nuget.org/packages/Limbo.Umbraco.BorgerDk)
 [![NuGet](https://img.shields.io/nuget/dt/Limbo.Umbraco.BorgerDk.svg)](https://www.nuget.org/packages/Limbo.Umbraco.BorgerDk)
 [![Limbo.Umbraco.BorgerDk at packages.limbo.works](https://img.shields.io/badge/limbo-packages-blue)](https://packages.limbo.works/limbo.umbraco.borgerdk/)
@@ -16,23 +16,35 @@
 
 ## Installation
 
-### Umbraco 13
+### Umbraco 17
 
-Version 13 of this package is build against Umbraco 13. The package is only available via [**NuGet**](https://www.nuget.org/packages/Limbo.Umbraco.BorgerDk/13.0.0). To install the package, you can use either the .NET CLI:
+Version 17 of this package is built against Umbraco 17 and targets `net10.0`. It is currently an alpha release, and only available via [**NuGet**](https://www.nuget.org/packages/Limbo.Umbraco.BorgerDk). To install the package, you can use either the .NET CLI:
 
 ```
-dotnet add package Limbo.Umbraco.BorgerDk --version 13.0.1
+dotnet add package Limbo.Umbraco.BorgerDk --version 17.0.0-alpha000
 ```
 
 or the NuGet Package Manager:
 
 ```
-Install-Package Limbo.Umbraco.BorgerDk -Version 13.0.1
+Install-Package Limbo.Umbraco.BorgerDk -Version 17.0.0-alpha000
 ```
 
 ### Other versions of Umbraco
 
+- [**`v13/main`**](https://github.com/limbo-works/Limbo.Umbraco.BorgerDk/tree/v13/main) Umbraco 13
 - [**`v10/main`**](https://github.com/limbo-works/Limbo.Umbraco.BorgerDk/tree/v10/main) Umbraco 10
+
+
+
+
+<br /><br />
+
+## Upgrading from Umbraco 13
+
+The backoffice UI was rewritten from AngularJS to Lit/TypeScript, the backoffice controller was replaced by
+Management API endpoints, and `BorgerDkConfiguration.Municipality` is now an `int`. See
+[**documentation/UMBRACO-17-UPGRADE.md**](documentation/UMBRACO-17-UPGRADE.md) for the full recap.
 
 
 

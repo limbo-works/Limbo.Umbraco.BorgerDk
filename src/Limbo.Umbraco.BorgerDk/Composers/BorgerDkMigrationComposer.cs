@@ -9,6 +9,6 @@ namespace Limbo.Umbraco.BorgerDk.Composers;
 
 public class BorgerDkMigrationComposer : IComposer {
     public void Compose(IUmbracoBuilder builder) {
-        builder.AddNotificationHandler<UmbracoApplicationStartingNotification, BorgerDkMigrationHandler>();
+        builder.AddNotificationAsyncHandler<UmbracoApplicationStartingNotification, BorgerDkMigrationHandler>();
     }
 }

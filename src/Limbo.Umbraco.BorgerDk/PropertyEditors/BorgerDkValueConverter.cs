@@ -58,8 +58,9 @@ public class BorgerDkValueConverter : PropertyValueConverterBase {
         // TODO: Should we still return a value here if the selected article isn't found in the cache?
         if (article == null) return null;
 
-        // Get a reference to the data type configuration
-        BorgerDkConfiguration? config = propertyType.DataType.Configuration as BorgerDkConfiguration;
+        // Get a reference to the data type configuration. As of Umbraco 14, "IPublishedDataType.Configuration" is
+        // an object graph rather than a typed instance, so it has to be read through "ConfigurationAs<T>()".
+        BorgerDkConfiguration? config = propertyType.DataType.ConfigurationAs<BorgerDkConfiguration>();
 
         // Get the allowed types from the data type (empty means all types are allowed)
         HashSet<string> allowed = config?.AllowedTypes.ToHashSet() ?? [];
@@ -100,13 +101,20 @@ public class BorgerDkValueConverter : PropertyValueConverterBase {
     }
 
     /// <remarks>
-    /// The cache level is set to <see cref="PropertyCacheLevel.Snapshot"/>, which would normally indicate that the
-    /// value is cached per request. Ideally we want to cache the value harder, but in this case, the value is
-    /// pulled from an underlying cache, so the result is that article is cached beyond each request regardless of
-    /// the <see cref="PropertyCacheLevel.Snapshot"/>.
+    /// <c>PropertyCacheLevel.Snapshot</c> is obsolete as of Umbraco 17 ("caching no longer supports snapshotting"),
+    /// so it can no longer be used. It effectively meant "re-convert on each request", which matters here: the
+    /// article is refreshed in the background by <see cref="Scheduling.BorgerDkImportTask"/>, and
+    /// <see cref="BorgerDkCacheRefresher"/> only refreshes <see cref="BorgerDkCache"/> - it never touches the
+    /// published content cache. Caching the converted value at element level would therefore keep serving the
+    /// article as it looked when the content item entered the published cache. <see cref="PropertyCacheLevel.None"/>
+    /// preserves the previous behaviour, and is cheap because the article itself still comes from
+    /// <see cref="BorgerDkCache"/>.
     /// </remarks>
+    // [CHANGE: "Element" would pin the converted article for the lifetime of the cached IPublishedContent, hiding
+    // background imports from the front-end] Related: BorgerDkHtmlSanitizer.cs, Scheduling/BorgerDkImportTask.cs,
+    // Client/src/modals/article-modal.element.ts, Client/src/modals/search-modal.element.ts
     public override PropertyCacheLevel GetPropertyCacheLevel(IPublishedPropertyType propertyType) {
-        return PropertyCacheLevel.Snapshot;
+        return PropertyCacheLevel.None;
     }
 
     /// <summary>

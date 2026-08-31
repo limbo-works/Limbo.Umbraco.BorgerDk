@@ -1,0 +1,17 @@
+{
+  "name": "limbo-umbraco-borgerdk",
+  "version": "17.0.0-alpha000",
+  "private": true,
+  "type": "module",
+  "description": "Backoffice client for the Limbo Borger.dk Umbraco package.",
+  "scripts": {
+    "build": "tsc --noEmit && vite build",
+    "watch": "vite build --watch",
+    "check": "tsc --noEmit"
+  },
+  "devDependencies": {
+    "@umbraco-cms/backoffice": "^17.5.3",
+    "typescript": "^5.9.2",
+    "vite": "^7.1.5"
+  }
+}
