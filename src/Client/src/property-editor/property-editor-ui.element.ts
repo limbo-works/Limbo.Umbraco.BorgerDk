@@ -117,7 +117,7 @@ export class LimboBorgerDkPropertyEditorUiElement extends UmbLitElement implemen
 				${this.#renderDetail('borgerDk_id', html`${this.value.id}`)}
 				${this.#renderDetail(
 					'borgerDk_url',
-					html`<a href=${this.value.url} target="_blank" rel="noopener noreferrer">
+					html`<a class="link-out" href=${this.value.url} target="_blank" rel="noopener noreferrer">
 						${this.value.url} <umb-icon name="icon-out"></umb-icon>
 					</a>`,
 				)}
@@ -169,6 +169,12 @@ export class LimboBorgerDkPropertyEditorUiElement extends UmbLitElement implemen
 				gap: var(--uui-size-space-2);
 				margin-top: var(--uui-size-space-3);
 			}
+
+			.link-out {
+				display: flex;
+				gap: 5px;
+			}
+
 		`,
 	];
 }

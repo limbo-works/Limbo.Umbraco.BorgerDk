@@ -29,7 +29,7 @@ public class BorgerDkPackageManifestReader : IPackageManifestReader {
                         type = "backofficeEntryPoint",
                         alias = "Limbo.Umbraco.BorgerDk.EntryPoint",
                         name =  "Limbo Borger.dk Entry Point",
-                        js = $"/App_Plugins/{Alias}/dist/limbo-borgerdk.js"
+                        js = $"/App_Plugins/{Alias}/limbo-borgerdk.js"
                     }
                 ],
                 Importmap = null
