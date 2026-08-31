@@ -21,13 +21,13 @@
 Version 17 of this package is built against Umbraco 17 and targets `net10.0`. It is currently an alpha release, and only available via [**NuGet**](https://www.nuget.org/packages/Limbo.Umbraco.BorgerDk). To install the package, you can use either the .NET CLI:
 
 ```
-dotnet add package Limbo.Umbraco.BorgerDk --version 17.0.0-alpha000
+dotnet add package Limbo.Umbraco.BorgerDk --version 17.0.0-alpha001
 ```
 
 or the NuGet Package Manager:
 
 ```
-Install-Package Limbo.Umbraco.BorgerDk -Version 17.0.0-alpha000
+Install-Package Limbo.Umbraco.BorgerDk -Version 17.0.0-alpha001
 ```
 
 ### Other versions of Umbraco
