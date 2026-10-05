@@ -10,8 +10,8 @@ namespace Limbo.Umbraco.BorgerDk.PropertyEditors;
 /// AngularJS views of the configuration fields. It is gone as of Umbraco 14 - the configuration fields now point at
 /// property editor UIs declared in <c>wwwroot/umbraco-package.json</c>.
 /// </remarks>
-public class BorgerDkConfigurationEditor : ConfigurationEditor<BorgerDkConfiguration> {
+public class BorgerDkArticlePickerConfigurationEditor : ConfigurationEditor<BorgerDkArticlePickerConfiguration> {
 
-    public BorgerDkConfigurationEditor(IIOHelper ioHelper) : base(ioHelper) { }
+    public BorgerDkArticlePickerConfigurationEditor(IIOHelper ioHelper) : base(ioHelper) { }
 
 }

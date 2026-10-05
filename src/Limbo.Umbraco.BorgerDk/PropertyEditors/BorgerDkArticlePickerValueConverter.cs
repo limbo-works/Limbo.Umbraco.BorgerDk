@@ -16,11 +16,11 @@ using Umbraco.Extensions;
 
 namespace Limbo.Umbraco.BorgerDk.PropertyEditors;
 
-public class BorgerDkValueConverter : PropertyValueConverterBase {
+public class BorgerDkArticlePickerValueConverter : PropertyValueConverterBase {
 
     private readonly BorgerDkCache _borgerDkCache;
 
-    public BorgerDkValueConverter(BorgerDkCache borgerDkCache) {
+    public BorgerDkArticlePickerValueConverter(BorgerDkCache borgerDkCache) {
         _borgerDkCache = borgerDkCache;
     }
 
@@ -30,7 +30,7 @@ public class BorgerDkValueConverter : PropertyValueConverterBase {
     /// <param name="propertyType">The property type.</param>
     /// <returns>A value indicating whether the converter supports a property type.</returns>
     public override bool IsConverter(IPublishedPropertyType propertyType) {
-        return propertyType.EditorAlias == BorgerDkPropertyEditor.EditorAlias;
+        return propertyType.EditorAlias == BorgerDkArticlePickerPropertyEditor.EditorAlias;
     }
 
     public override object? ConvertSourceToIntermediate(IPublishedElement owner, IPublishedPropertyType propertyType, object? source, bool preview) {
@@ -60,7 +60,7 @@ public class BorgerDkValueConverter : PropertyValueConverterBase {
 
         // Get a reference to the data type configuration. As of Umbraco 14, "IPublishedDataType.Configuration" is
         // an object graph rather than a typed instance, so it has to be read through "ConfigurationAs<T>()".
-        BorgerDkConfiguration? config = propertyType.DataType.ConfigurationAs<BorgerDkConfiguration>();
+        BorgerDkArticlePickerConfiguration? config = propertyType.DataType.ConfigurationAs<BorgerDkArticlePickerConfiguration>();
 
         // Get the allowed types from the data type (empty means all types are allowed)
         HashSet<string> allowed = config?.AllowedTypes.ToHashSet() ?? [];

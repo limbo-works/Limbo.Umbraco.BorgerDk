@@ -6,7 +6,7 @@ using Umbraco.Cms.Core.PropertyEditors;
 namespace Limbo.Umbraco.BorgerDk.PropertyEditors;
 
 /// <summary>
-/// Class representing the configuration of a <see cref="BorgerDkPropertyEditor"/>.
+/// Class representing the configuration of a <see cref="BorgerDkArticlePickerPropertyEditor"/>.
 /// </summary>
 /// <remarks>
 /// Umbraco 14 introduced two changes that affect this class:
@@ -20,7 +20,7 @@ namespace Limbo.Umbraco.BorgerDk.PropertyEditors;
 ///   <c>propertyEditorUi</c> manifest in <c>wwwroot/umbraco-package.json</c> instead.</item>
 /// </list>
 /// </remarks>
-public class BorgerDkConfiguration {
+public class BorgerDkArticlePickerConfiguration {
 
     /// <summary>
     /// Gets or sets the code of the municipality to be used. <c>0</c> means no municipality.
