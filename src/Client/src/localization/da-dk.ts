@@ -1,7 +1,7 @@
 export default {
 	borgerDk: {
 		dashboardLabel: 'Borger.dk',
-		propertyEditorLabel: 'Limbo Borger.dk',
+		propertyEditorLabel: 'Limbo Borger.dk Article Picker',
 
 		// Property editor
 		insertArticle: 'Indsæt artikel',

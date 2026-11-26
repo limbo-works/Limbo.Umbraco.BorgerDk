@@ -9,7 +9,7 @@ namespace Limbo.Umbraco.BorgerDk.PropertyEditors;
 /// <summary>
 /// Class representing the Borger.dk property editor.
 /// </summary>
-[DataEditor(EditorAlias, ValueType = ValueTypes.Json, ValueEditorIsReusable = false)]
+[DataEditor(EditorAlias, ValueType = EditorValueType, ValueEditorIsReusable = false)]
 public class BorgerDkArticlePickerPropertyEditor : DataEditor {
 
     /// <summary>
@@ -21,6 +21,14 @@ public class BorgerDkArticlePickerPropertyEditor : DataEditor {
     /// Gets the alias of the property editor UI shipped with this package.
     /// </summary>
     public const string EditorUiAlias = BorgerDkPropertyEditorUiAliases.ArticlePicker;
+
+    public const string EditorName = "Limbo Borger.dk Article Picker";
+
+    public const string EditorIcon = "icon-map-location";
+
+    public const string EditorGroup = "Limbo";
+
+    public const string EditorValueType = ValueTypes.Json;
 
     private readonly IIOHelper _ioHelper;
 

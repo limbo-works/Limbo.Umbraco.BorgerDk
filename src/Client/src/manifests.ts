@@ -14,12 +14,12 @@ export const manifests: Array<UmbExtensionManifest> = [
 	{
 		type: 'propertyEditorUi',
 		alias: BORGERDK_PROPERTY_EDITOR_UI_ALIAS,
-		name: 'Limbo Borger.dk Property Editor UI',
+		name: 'Limbo Borger.dk Article Picker Property Editor UI',
 		element: () => import('./property-editor/property-editor-ui.element.js'),
 		meta: {
 			label: '#borgerDk_propertyEditorLabel',
 			icon: 'icon-school',
-			group: 'pickers',
+			group: 'Limbo',
 			propertyEditorSchemaAlias: BORGERDK_PROPERTY_EDITOR_SCHEMA_ALIAS,
 			supportsReadOnly: true,
 			settings: {
@@ -45,23 +45,23 @@ export const manifests: Array<UmbExtensionManifest> = [
 	{
 		type: 'propertyEditorUi',
 		alias: BORGERDK_MUNICIPALITY_UI_ALIAS,
-		name: 'Limbo Borger.dk Municipality Picker',
+		name: 'Limbo Borger.dk Municipality Picker Property Editor UI',
 		element: () => import('./config/municipality.element.js'),
 		meta: {
 			label: '#borgerDk_municipality',
 			icon: 'icon-map-location',
-			group: 'pickers',
+			group: 'Limbo',
 		},
 	},
 	{
 		type: 'propertyEditorUi',
 		alias: BORGERDK_ALLOWED_TYPES_UI_ALIAS,
-		name: 'Limbo Borger.dk Allowed Types Picker',
+		name: 'Limbo Borger.dk Allowed Types Picker Property Editor UI',
 		element: () => import('./config/allowed-types.element.js'),
 		meta: {
 			label: '#borgerDk_allowedTypes',
 			icon: 'icon-list',
-			group: 'lists',
+			group: 'Limbo',
 		},
 	},
 	{
